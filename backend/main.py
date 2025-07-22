@@ -8,7 +8,7 @@ app = FastAPI(
     title='Медецинский Урологический Центр API',
     description='API для системы записи на прием в урологическую клинику',
     version='1.0.0',
-    responses=ORJSONResponse,
+    default_response_class=ORJSONResponse,
 )
 
 app.add_middleware(
