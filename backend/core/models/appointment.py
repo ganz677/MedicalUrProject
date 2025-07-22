@@ -24,7 +24,7 @@ class Appointment(IDMixin, TimeStampMixin, Base):
         comment='Фамилия пациента'
     )
     phone_number: Mapped[str] = mapped_column(
-        String(20)
+        String(20),
         nullable=False,
         comment='Номер телефона пациента'
     )
