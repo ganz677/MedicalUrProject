@@ -1,6 +1,10 @@
+import os
+from dotenv import load_dotenv
 from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
+load_dotenv(os.path.join(os.path.dirname(__file__), '../../.env'))
 
 class DataBaseSettings(BaseModel):
     url: PostgresDsn
@@ -22,6 +26,5 @@ class Settings(BaseSettings):
     )
     db: DataBaseSettings
     
-
 settings = Settings()
 
