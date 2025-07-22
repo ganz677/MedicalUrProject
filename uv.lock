@@ -291,6 +291,7 @@ dependencies = [
     { name = "orjson" },
     { name = "psycopg2" },
     { name = "pydantic-settings" },
+    { name = "python-dotenv" },
     { name = "sqlalchemy" },
     { name = "uvicorn" },
 ]
@@ -303,6 +304,7 @@ requires-dist = [
     { name = "orjson", specifier = ">=3.11.0" },
     { name = "psycopg2", specifier = ">=2.9.10" },
     { name = "pydantic-settings", specifier = ">=2.10.1" },
+    { name = "python-dotenv", specifier = ">=1.1.1" },
     { name = "sqlalchemy", specifier = ">=2.0.41" },
     { name = "uvicorn", specifier = ">=0.35.0" },
 ]
