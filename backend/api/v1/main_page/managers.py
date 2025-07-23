@@ -1,12 +1,14 @@
+from uuid import UUID
+
 from typing import (
     TYPE_CHECKING,
-    Annotated
+    Annotated,
+    List
 )
 
 from sqlalchemy import (
     select,
     insert,
-    update
 )
 
 from sqlalchemy.exc import IntegrityError
@@ -26,7 +28,7 @@ from core.models import (
 from api.v1.main_page.schemas import (
     AppointmentCreate,
     AppointmentResponse,
-    AppointmentDB
+    AppointmentDB,
 )
 
 if TYPE_CHECKING:
@@ -57,3 +59,42 @@ class AppointmentManager:
             appointment=AppointmentDB.model_validate(appointment_data)
         ) 
         
+        
+    async def get_appointments(self) -> List[AppointmentDB]:
+        query = select(self.model)
+        try:
+            result = await self.db.execute(query)
+        except IntegrityError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail='Cant get any appointment'
+            )
+        
+        appointments = result.scalars().all()
+        
+        return [AppointmentDB.model_validate(obj) for obj in appointments]
+    
+    
+    async def get_single_appointment(
+        self,
+        id: UUID,
+    ) -> AppointmentDB:
+        query = select(self.model).where(self.model.id == id)
+
+        try:
+            result = await self.db.execute(query)
+            appointment = result.scalar_one_or_none()
+        except IntegrityError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid request (integrity error)"
+            )
+
+        if appointment is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Appointment not found"
+            )
+
+        return AppointmentDB.model_validate(appointment, from_attributes=True)
+            
