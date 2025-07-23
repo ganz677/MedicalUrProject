@@ -78,3 +78,4 @@ class AppointmentResponse(BaseModel):
     success: bool
     appointment: AppointmentDB
     message: str
+    
