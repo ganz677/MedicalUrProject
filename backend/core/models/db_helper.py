@@ -35,8 +35,13 @@ class DataBaseHelper:
         
     async def session_getter(self):
         async with self.session_factory() as session:
-            yield session
-            
+            try:
+                yield session
+            except Exception:
+                await session.rollback()
+                raise
+            finally:
+                await session.close()
 
 
 db_helper = DataBaseHelper(
