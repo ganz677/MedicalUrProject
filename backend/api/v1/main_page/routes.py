@@ -31,7 +31,7 @@ router = APIRouter(
 )
 async def accept_appointment(
     appointment: AppointmentCreate,
-    service: Annotated['AppointmentService', Depends(AppointmentService)]
+    service: Annotated[AppointmentService, Depends(AppointmentService)]
 ) -> AppointmentResponse:
     '''Создание записи на прием'''
     return await service.register_new_appointment(appointment=appointment)
@@ -42,7 +42,7 @@ async def accept_appointment(
     response_model=List[AppointmentDB],
 )
 async def get_appointments(
-    service: Annotated['AppointmentService', Depends(AppointmentService)]
+    service: Annotated[AppointmentService, Depends(AppointmentService)]
 ):
     return await service.get_appointments()
 
@@ -53,6 +53,6 @@ async def get_appointments(
 )
 async def get_appointment_by_id(
     id: UUID,
-    service: Annotated['AppointmentService', Depends(AppointmentService)]
+    service: Annotated[AppointmentService, Depends(AppointmentService)]
 ):
     return await service.get_appointment_by_id(id=id)
