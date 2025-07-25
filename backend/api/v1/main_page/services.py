@@ -14,7 +14,7 @@ from .schemas import AppointmentCreate
 class AppointmentService:
     def __init__(
         self,
-        manager: Annotated['AppointmentManager', Depends(AppointmentManager)]
+        manager: Annotated[AppointmentManager, Depends(AppointmentManager)]
     ):
         self.manager = manager
         
