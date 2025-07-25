@@ -1,16 +1,25 @@
+from enum import Enum as PyEnum
+
 from sqlalchemy import (
     String,
     Boolean,
-    Text
+    Text,
 )
 from sqlalchemy.orm import (
     Mapped,
     mapped_column
 )
+from sqlalchemy.dialects.postgresql import ENUM as PGEnum
+
 
 from .base import Base
 from .mixins.id_mixin import IDMixin
 from .mixins.timestamp_mixin import TimeStampMixin
+
+class AppointmentStatus(str, PyEnum):
+    new = 'new'
+    confirmed = 'confirmed'
+    canceled = 'canceled'
 
 class Appointment(IDMixin, TimeStampMixin, Base):
     first_name: Mapped[str] = mapped_column(
@@ -54,12 +63,16 @@ class Appointment(IDMixin, TimeStampMixin, Base):
         default=True,
         comment='Согласие на обработку'
     )
-    status: Mapped[str] = mapped_column(
-        String(50),
+    status: Mapped[AppointmentStatus] = mapped_column(
+        PGEnum(
+            AppointmentStatus,
+            name="appointment_status",
+            create_type=True,                
+            values_callable=lambda enum: [e.value for e in enum],
+        ),
+        server_default=AppointmentStatus.new.value,
         nullable=False,
-        default='new',
-        comment='Статус записи',
     )
     
     def __repr__(self):
-        return f"<Appointment(id={self.id}, name='{self.first_name} {self.last_name}', phone='{self.phone}')>"
+        return f"<Appointment(id={self.id}, name='{self.first_name} {self.last_name}', phone='{self.phone_number}')>"
