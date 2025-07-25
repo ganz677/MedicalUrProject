@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .api import router as api_router
 
 app = FastAPI(
-    title='Медецинский Урологический Центр API',
+    title='Медицинский Урологический Центр API',
     description='API для системы записи на прием в урологическую клинику',
     version='1.0.0',
     default_response_class=ORJSONResponse,
