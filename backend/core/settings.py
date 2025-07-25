@@ -1,10 +1,15 @@
 import os
+
+from pathlib import Path
+
 from dotenv import load_dotenv
+
 from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
 load_dotenv(os.path.join(os.path.dirname(__file__), '../../.env'))
+
+BASE_DIR =Path(__file__).parent.parent
 
 class DataBaseSettings(BaseModel):
     url: PostgresDsn
@@ -13,6 +18,11 @@ class DataBaseSettings(BaseModel):
     pool_size: int = 5
     max_overflow: int = 10
 
+class AuthJWT(BaseModel):
+    algorithm: str = 'RS256'
+    access_token_lifetime_seconds: int = 9600
+    private_key_path: Path = BASE_DIR / 'certs' / 'private.pem'
+    public_key_path: Path = BASE_DIR / 'certs' / 'public.pem'
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -25,6 +35,7 @@ class Settings(BaseSettings):
         populate_by_name=True
     )
     db: DataBaseSettings
-    
-settings = Settings()
+    auth_jwt: AuthJWT = AuthJWT()
 
+
+settings = Settings()
