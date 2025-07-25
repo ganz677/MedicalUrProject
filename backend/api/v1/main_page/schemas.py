@@ -8,6 +8,7 @@ from pydantic import (
     BaseModel,
     EmailStr,
     field_validator,
+    ConfigDict
 )
 
 
@@ -22,8 +23,8 @@ class AppointmentBase(BaseModel):
     message: Optional[str] = None
     privacy_consent: bool
     
-    class Config:
-        str_strip_whitespace = True
+    model_config = ConfigDict(str_strip_whitespace=True)
+
     
     
     
@@ -68,8 +69,7 @@ class AppointmentDB(AppointmentBase):
     created_at: datetime
     updated_at: Optional[datetime]
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
         
         
 
