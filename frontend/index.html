@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Медицинский Урологический Центр</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <h1>Медицинский Урологический Центр</h1>
+            <p class="subtitle">Профессиональная помощь при урологических заболеваниях</p>
+            <button class="primary-btn" id="openModalBtn">Записаться на прием</button>
+        </div>
+    </header>
+
+    <!-- Когда нужно обращаться -->
+    <section class="symptoms">
+        <div class="container">
+            <h2>Когда стоит обратиться к урологу?</h2>
+            <div class="symptom-grid">
+                <div class="symptom-card">
+                    <h3>Боли при мочеиспускании</h3>
+                    <p>Дискомфорт или жжение могут быть признаками инфекции или воспаления.</p>
+                </div>
+                <div class="symptom-card">
+                    <h3>Частые позывы</h3>
+                    <p>Учащение мочеиспускания — повод пройти диагностику.</p>
+                </div>
+                <div class="symptom-card">
+                    <h3>Проблемы в интимной сфере</h3>
+                    <p>Мы поможем найти решение и вернуть комфорт в жизнь.</p>
+                </div>
+                <div class="symptom-card">
+                    <h3>Боли в пояснице</h3>
+                    <p>Может быть связано с заболеваниями почек или мочевыводящих путей.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- О центре -->
+    <section class="about">
+        <div class="container">
+            <h2>О нашем центре</h2>
+            <p>Мы специализируемся на диагностике и лечении урологических заболеваний. Используем современное оборудование и гарантируем полную конфиденциальность.</p>
+            <div class="about-cards">
+                <div class="about-card">
+                    <h3>Опытные врачи</h3>
+                    <p>Команда специалистов со стажем более 10 лет.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Современное оборудование</h3>
+                    <p>Точное и быстрое обследование.</p>
+                </div>
+                <div class="about-card">
+                    <h3>Комфорт для пациентов</h3>
+                    <p>Уютная атмосфера и персональный подход.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Врачи -->
+    <section class="doctors">
+        <div class="container">
+            <h2>Наши специалисты</h2>
+            <div class="doctor-grid">
+                <div class="doctor-card">
+                    <img src="images/doctor1.jpg" alt="Доктор 1">
+                    <h3>Иванов Сергей Петрович</h3>
+                    <p>Уролог, стаж 15 лет</p>
+                </div>
+                <div class="doctor-card">
+                    <img src="images/doctor2.jpg" alt="Доктор 2">
+                    <h3>Петрова Анна Викторовна</h3>
+                    <p>Уролог, кандидат медицинских наук</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <footer class="footer">
+        <div class="container">
+            <p>Адрес: г. Москва, ул. Примерная, 1 | Тел: +7 (999) 123-45-67</p>
+        </div>
+    </footer>
+
+    <!-- Модалка с формой -->
+    <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Запись на прием</h2>
+            <form id="appointmentForm">
+                <input type="text" name="first_name" placeholder="Имя" required>
+                <input type="text" name="last_name" placeholder="Фамилия" required>
+                <input type="tel" name="phone_number" placeholder="+79991234567" required>
+                <input type="email" name="email" placeholder="Email">
+                <select name="age" required>
+                    <option value="">Возраст</option>
+                    <option value="18-29">18-29</option>
+                    <option value="30-39">30-39</option>
+                    <option value="40-49">40-49</option>
+                    <option value="50+">50+</option>
+                </select>
+                <input type="datetime-local" name="preferred_time" required>
+                <textarea name="message" placeholder="Комментарий"></textarea>
+                <div class="checkbox">
+                    <input type="checkbox" name="privacy_consent" required>
+                    <label>Согласие на обработку персональных данных</label>
+                </div>
+                <button type="submit" class="primary-btn">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+<script src="script.js"></script>
+</body>
+</html>
