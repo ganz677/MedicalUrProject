@@ -175,3 +175,5 @@ cython_debug/
 
 app/certs/
 .vscode/
+backend/certs/jwt-public.pem
+backend/certs/jwt-private.pem
