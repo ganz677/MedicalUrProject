@@ -41,6 +41,18 @@ class AppointmentManager:
         
         
     async def create_appointment(self, appointment: AppointmentCreate) -> AppointmentResponse:
+        
+        
+        existing = await self.db.execute(
+            select(self.model).where(
+                self.model.phone_number == appointment.phone_number,
+                self.model.first_name == appointment.first_name,
+                self.model.last_name == appointment.last_name,
+            )
+        )
+        if existing.scalar_one_or_none():
+            raise HTTPException(400, "Запись уже существует")
+        
         query = insert(self.model).values(**appointment.model_dump()).returning(self.model)
         try:
             result = await self.db.execute(query)
