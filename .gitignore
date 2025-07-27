@@ -173,7 +173,6 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-app/certs/
+
 .vscode/
-backend/certs/jwt-public.pem
-backend/certs/jwt-private.pem
+
