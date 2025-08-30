@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block title %}MedClinic — лечение преждевременной эякуляции{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="container hero-flex">
+    <div class="hero-text">
+      <h1>Эффективное лечение преждевременной эякуляции</h1>
+      <p class="lead" style="text-align:center;max-width:800px;margin:0 auto;">
+        Определение, причины, критерии, диагностика и современные подходы к лечению. Материал подготовлен специалистами MedClinic.
+      </p>
+      <ul class="hero-badges">
+        <li>Лицензированная клиника</li>
+        <li>Стаж врачей 10+ лет</li>
+        <li>Анонимно и бережно</li>
+      </ul>
+      <div class="hero-cta">
+        <a href="#form" class="btn-primary">Записаться на консультацию</a>
+      </div>
+    </div>
+    <div class="hero-doctor-image" aria-hidden="true">
+      <img src="{{ url_for('static', path='assets/images/hero-doctor-clipboard.png') }}" alt="Врач с планшетом" decoding="async">
+    </div>
+  </div>
+</section>
+
+<!-- О проблеме -->
+<section class="about" id="about">
+  <div class="container">
+    <h2 class="section-title">Что такое преждевременная эякуляция?</h2>
+    <div class="section-subtitle prose center">
+      <p>ПЭ — сексуальное расстройство, при котором оргазм наступает слишком быстро и вне контроля мужчины.</p>
+    </div>
+
+    <div class="about-cards">
+      <a href="{{ url_for('serve_blog') }}#causes" class="about-card">
+        <img src="{{ url_for('static', path='assets/images/about_problem/icon-psychology.png') }}" alt="Психологические причины" width="96" height="96" loading="lazy" decoding="async">
+        <h3>Психологические причины</h3>
+        <p>Тревожность, стресс, негативные установки и прошлый опыт.</p>
+      </a>
+      <a href="{{ url_for('serve_blog') }}#causes" class="about-card">
+        <img src="{{ url_for('static', path='assets/images/about_problem/icon-physiology.png') }}" alt="Физиологические факторы" width="96" height="96" loading="lazy" decoding="async">
+        <h3>Физиологические факторы</h3>
+        <p>Гиперчувствительность, гормональные нарушения, воспаление.</p>
+      </a>
+      <a href="{{ url_for('serve_blog') }}#criteria" class="about-card">
+        <img src="{{ url_for('static', path='assets/images/about_problem/icon-experience.png') }}" alt="Критерии" width="96" height="96" loading="lazy" decoding="async">
+        <h3>Как распознать ПЭ</h3>
+        <p>Критерии: время, частота, длительность симптомов и дистресс.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Почему мы -->
+<section class="advantages" id="advantages">
+  <div class="container">
+    <h2 class="section-title">Почему выбирают нас?</h2>
+    <p class="section-subtitle prose center">Профессиональное лечение, индивидуальный подход и забота о каждом пациенте.</p>
+    <div class="advantages-cards">
+      <a href="{{ url_for('serve_blog') }}#diagnostics" class="advantages-card">
+        <img src="{{ url_for('static', path='assets/images/advantages/icon4.png') }}" alt="Опытные врачи" width="96" height="96" loading="lazy" decoding="async">
+        <h3>Опытные врачи</h3>
+        <p>Урологи, андрологи, сексологи — диагностика по ISSM/EAU.</p>
+      </a>
+      <a href="{{ url_for('serve_blog') }}#treatment" class="advantages-card">
+        <img src="{{ url_for('static', path='assets/images/advantages/icon5.png') }}" alt="Современные методики" width="96" height="96" loading="lazy" decoding="async">
+        <h3>Современные методики</h3>
+        <p>Фармакотерапия, поведенческие техники, малоинвазивные процедуры.</p>
+      </a>
+      <a href="{{ url_for('serve_blog') }}#e-stim" class="advantages-card">
+        <img src="{{ url_for('static', path='assets/images/advantages/icon6.png') }}" alt="Комфорт и результат" width="96" height="96" loading="lazy" decoding="async">
+        <h3>Комфорт и результат</h3>
+        <p>Щадящие технологии по показаниям, акцент на безопасность.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Наши врачи -->
+<section class="doctors" id="doctors">
+  <div class="container">
+    <h2 class="section-title">Наши врачи</h2>
+    <div class="doctors-cards">
+      <div class="doctor-card">
+        <img src="{{ url_for('static', path='assets/images/doctor1.jpg') }}" alt="Иванов Сергей — уролог" width="360" height="420" loading="lazy" decoding="async">
+        <h3>Иванов Сергей</h3>
+        <p>Уролог, 15 лет опыта</p>
+      </div>
+      <div class="doctor-card">
+        <img src="{{ url_for('static', path='assets/images/doctor2.jpg') }}" alt="Петрова Анна — сексолог" width="360" height="420" loading="lazy" decoding="async">
+        <h3>Петрова Анна</h3>
+        <p>Сексолог, 10 лет опыта</p>
+      </div>
+      <div class="doctor-card">
+        <img src="{{ url_for('static', path='assets/images/doctor3.jpg') }}" alt="Сидоров Михаил — эндокринолог" width="360" height="420" loading="lazy" decoding="async">
+        <h3>Сидоров Михаил</h3>
+        <p>Эндокринолог, 12 лет опыта</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Форма записи -->
+<section class="form-section" id="form">
+  <div class="container">
+    <h2 class="section-title">Запишитесь на консультацию</h2>
+    <div class="form-card styled-card">
+      <form class="form" id="appointment-form" novalidate>
+        <div class="form-row">
+          <label>Имя
+            <input type="text" name="first_name" required autocomplete="given-name">
+          </label>
+          <label>Фамилия
+            <input type="text" name="last_name" required autocomplete="family-name">
+          </label>
+          <label>Телефон
+            <input type="tel" name="phone_number" required inputmode="tel" autocomplete="tel" placeholder="+7 999 123-45-67">
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Email (необязательно)
+            <input type="email" name="email" autocomplete="email">
+          </label>
+          <label>Возрастная группа
+            <select name="age" required>
+              <option value="" disabled selected>Выберите…</option>
+              <option value="18-25">18–25</option>
+              <option value="26-35">26–35</option>
+              <option value="36-45">36–45</option>
+              <option value="46+">46+</option>
+            </select>
+          </label>
+          <label>Предпочтительное время
+            <select name="preferred_time" required>
+              <option value="" disabled selected>Выберите…</option>
+              <option value="09:00-12:00">09:00–12:00</option>
+              <option value="12:00-15:00">12:00–15:00</option>
+              <option value="15:00-18:00">15:00–18:00</option>
+              <option value="18:00-21:00">18:00–21:00</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Сообщение (необязательно)
+          <textarea name="message" rows="3" placeholder="Кратко опишите вашу ситуацию"></textarea>
+        </label>
+
+        <label class="checkbox">
+          <input type="checkbox" name="privacy_consent" required>
+          <span>Я согласен с <a href="/privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a></span>
+        </label>
+
+        <button type="submit" class="btn-primary">Отправить</button>
+        <p class="form-note">Нажимая «Отправить», вы соглашаетесь с <a href="#">политикой конфиденциальности</a>.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Контакты -->
+<section class="contacts" id="contacts">
+  <div class="container contacts-container">
+    <h2 class="section-title">Контакты</h2>
+    <p class="contact-info">
+      Адрес: г. Москва, ул. Примерная, д. 1<br>
+      Телефон: <a href="tel:+79991234567">+7 (999) 123-45-67</a><br>
+      Email: <a href="mailto:info@medclinic.ru">info@medclinic.ru</a>
+    </p>
+    <div class="map">
+      <iframe
+        src="https://yandex.ru/map-widget/v1/-/CCUq6Hk0"
+        width="100%" height="300" frameborder="0" allowfullscreen
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Карта – MedClinic">
+      </iframe>
+    </div>
+  </div>
+</section>
+{% endblock %}

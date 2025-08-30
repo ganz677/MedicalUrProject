@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}MedClinic — урологический центр{% endblock %}</title>
+
+  <link rel="icon" href="{{ url_for('static', path='assets/images/favicon.png') }}" type="image/png" />
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+
+  <!-- ===== Header (flat, fixed) ===== -->
+  <header class="site-header" role="banner">
+    <!-- Верхняя инфополоса -->
+    <div class="header-top" aria-label="Контакты и график">
+      <div class="header-top-inner">
+        <div class="info-list">
+          <span class="info-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-4.35 7-10a7 7 0 1 0-14 0c0 5.65 7 10 7 10Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="11" r="2.6" fill="currentColor"/></svg>
+            Москва, ул. Примерная, д. 1
+          </span>
+          <span class="info-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v6l4 2" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+            Пн–Сб: 09:00–20:00
+          </span>
+          <a class="info-item info-link" href="tel:+79991234567">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v2a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.5 0 0 1 2.92 4.18 2 2 0 0 1 4.92 2h2a2 2 0 0 1 2 1.72c.12.9.31 1.78.58 2.63a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.45-1.0a2 2 0 0 1 2.11-.45c.85.27 1.73.46 2.63.58A2 2 0 0 1 22 16.92Z" fill="currentColor"/></svg>
+            +7 (999) 123-45-67
+          </a>
+          <a class="info-item info-link" href="mailto:info@medclinic.ru">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m22 8-10 6L2 8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            info@medclinic.ru
+          </a>
+        </div>
+
+        <div class="header-top-right">
+          <span class="status-badge" aria-live="polite">
+            <span class="dot" id="statusDot" aria-hidden="true"></span>
+            <span id="statusText">Статус…</span>
+          </span>
+          <div class="quick-links" role="group" aria-label="Быстрые действия">
+            <a class="ql-btn" href="tel:+79991234567" title="Позвонить" aria-label="Позвонить">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v2a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.5 0 0 1 2.92 4.18 2 2 0 0 1 4.92 2h2a2 2 0 0 1 2 1.72c.12.9.31 1.78.58 2.63a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.45-1.0a2 2 0 0 1 2.11-.45c.85.27 1.73.46 2.63.58A2 2 0 0 1 22 16.92Z" fill="currentColor"/></svg>
+            </a>
+            <a class="ql-btn" href="https://wa.me/79991234567" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.94 14.5L2 22l5.7-1.99A10 10 0 1 0 12 2Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16.1 13.4c-.2-.1-1.2-.6-1.4-.7-.2-.1-.4-.1-.6.1-.2.2-.7.7-.8.9-.1.1-.3.2-.6.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.9-.2-.3 0-.5.1-.6.1-.1.2-.2.3-.3.1-.1.1-.2.2-.3.1-.1.1-.2 0-.3l-.7-1.6c-.2-.4-.3-.3-.4-.3h-.3c-.1 0-.3 0-.4.2-.1.2-.5.5-.5 1.2s.5 1.4.6 1.5c.1.2 1.1 1.8 2.6 2.6 1.5.9 1.8.6 2.1.6.3 0 1-.4 1.1-.8.1-.4.1-.7.1-.8 0-.1-.1-.2-.3-.3Z" fill="currentColor"/></svg>
+            </a>
+            <a class="ql-btn" href="https://t.me/medclinic" target="_blank" rel="noopener" title="Telegram" aria-label="Telegram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.5 2.9 10.8c-.7.3-.7 1.3.1 1.5l4.6 1.4 1.7 5.4c.2.7 1.1.8 1.5.1l2.5-3.3 4.8 3.6c.6.4 1.5.1 1.7-.7l3-14c.2-.9-.6-1.6-1.3-1.3Z" fill="currentColor"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Логотип + меню -->
+    <div class="header-inner">
+      <a href="{{ url_for('serve_index') }}" class="logo" aria-label="MedClinic — на главную">
+        <img src="{{ url_for('static', path='assets/images/logo.png') }}" alt="MedClinic" width="132" height="32" />
+      </a>
+
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Открыть меню">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="header-bottom" id="desktopNav">
+        <nav class="main-nav" aria-label="Главная навигация">
+          <a class="nav-link" href="#about">О проблеме</a>
+          <a class="nav-link" href="#advantages">Почему мы</a>
+          <a class="nav-link" href="#doctors">Наши врачи</a>
+          <a class="nav-link" href="#contacts">Контакты</a>
+          <a class="nav-link" href="{{ url_for('serve_blog') }}">Блог</a>
+          <a class="btn-cta" href="#form">Записаться</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Мобильное меню -->
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <nav class="mobile-nav" aria-label="Мобильная навигация">
+        <a class="nav-link" href="#about">О проблеме</a>
+        <a class="nav-link" href="#advantages">Почему мы</a>
+        <a class="nav-link" href="#doctors">Наши врачи</a>
+        <a class="nav-link" href="#contacts">Контакты</a>
+        <a class="nav-link" href="{{ url_for('serve_blog') }}">Блог</a>
+        <a class="btn-cta" href="#form">Записаться</a>
+
+        <div class="mobile-contacts">
+          <a href="tel:+79991234567" class="mc-item strong">Позвонить</a>
+          <div class="mc-actions">
+            <a class="mc-btn wa" href="https://wa.me/79991234567" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="mc-btn tg" href="https://t.me/medclinic" target="_blank" rel="noopener">Telegram</a>
+          </div>
+          <a href="mailto:info@medclinic.ru" class="mc-item">info@medclinic.ru</a>
+          <div class="mc-item muted">Москва, ул. Примерная, д. 1</div>
+          <div class="mc-item muted">Пн–Сб: 09:00–20:00</div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" aria-label="Основной контент">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ===== Footer (compact) ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-wrap">
+      <div class="footer-top">
+        <div class="footer-brand-block">
+          <a class="footer-brand" href="#hero" aria-label="На главную">
+            <img src="{{ url_for('static', path='assets/images/logo.png') }}" alt="MedClinic" width="110" height="28" loading="lazy">
+            <span>MedClinic</span>
+          </a>
+          <p class="footer-tagline">Профессиональная помощь в решении интимных проблем.</p>
+        </div>
+
+        <nav class="footer-nav" aria-label="Навигация по сайту">
+          <a href="#about">О проблеме</a>
+          <a href="#advantages">Почему мы</a>
+          <a href="#doctors">Наши врачи</a>
+          <a href="#contacts">Контакты</a>
+          <a href="{{ url_for('serve_blog') }}">Блог</a>
+        </nav>
+
+        <div class="footer-contacts-mini">
+          <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+          <a href="mailto:info@medclinic.ru">info@medclinic.ru</a>
+          <p class="footer-hours">Пн–Сб: 09:00–20:00</p>
+          <div class="footer-social" aria-label="Социальные сети">
+            <a href="#" aria-label="Instagram">
+              <img src="{{ url_for('static', path='assets/images/instagram.svg') }}" alt="" width="20" height="20" loading="lazy">
+            </a>
+            <a href="#" aria-label="VK">
+              <img src="{{ url_for('static', path='assets/images/vk.svg') }}" alt="" width="20" height="20" loading="lazy">
+            </a>
+            <a href="#" aria-label="Telegram">
+              <img src="{{ url_for('static', path='assets/images/telegram.svg') }}" alt="" width="20" height="20" loading="lazy">
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <small>© 2025 MedClinic. Все права защищены.</small>
+        <nav class="footer-legal" aria-label="Юридическая информация">
+          <a href="#">Политика конфиденциальности</a>
+          <a href="#">Согласие на обработку данных</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cookie banner -->
+  <div id="cookie-banner" class="cookie-banner is-hidden" role="dialog" aria-live="polite" aria-label="Сообщение о файлах cookie">
+    <p class="cookie-banner__text">
+      Мы используем файлы cookie, чтобы улучшить работу сайта.
+      Подробнее в нашей <a href="/privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.
+    </p>
+    <div class="cookie-banner__actions">
+      <button id="cookie-accept" class="btn-primary">Принять</button>
+      <button id="cookie-decline" class="btn-outline">Только необходимые</button>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', path='js/main.js') }}" defer></script>
+</body>
+</html>
