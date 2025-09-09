@@ -1,197 +1,170 @@
-/* MedClinic — main.js (STATIC HEADER VERSION + Appointment Form) */
+console.log("[main.js] loaded v8");
+"use strict";
 
-// ---------- Helpers ----------
-const $ = (s, r = document) => r.querySelector(s);
+/* ============================================================
+   1) RU PHONE MASK (delegated, independent)
+   ============================================================ */
+(function ruPhoneMaskBoot() {
+  const SELECTOR = 'input[name="phone_number"]';
+  const onlyDigits = (s) => String(s || "").replace(/\D/g, "");
+
+  function toNational10(d) {
+    if (d.startsWith("8")) d = "7" + d.slice(1);
+    if (d.startsWith("7")) return d.slice(1).slice(0, 10);
+    if (d.startsWith("9")) return d.slice(0, 10);
+    if (d.length >= 10)    return d.slice(-10);
+    return d.slice(0, 10);
+  }
+
+  function formatView(raw) {
+    const nat = toNational10(onlyDigits(raw));
+    let v = "+7";
+    if (nat.length > 0) v += " (" + nat.slice(0, Math.min(3, nat.length));
+    if (nat.length >= 3) v += ")";
+    if (nat.length > 3)  v += " " + nat.slice(3, Math.min(6, nat.length));
+    if (nat.length > 6)  v += "-" + nat.slice(6, Math.min(8, nat.length));
+    if (nat.length > 8)  v += "-" + nat.slice(8, Math.min(10, nat.length));
+    return { nat, view: v, e164: nat ? ("+7" + nat) : "+7" };
+  }
+
+  function setCaretEnd(el){ try{ const L = el.value.length; el.setSelectionRange(L, L); }catch{} }
+
+  function attach(el) {
+    if (!el || el.dataset.maskAttached) return;
+    el.dataset.maskAttached = "1";
+    if (!el.placeholder) el.placeholder = "+7 (___) ___-__-__";
+    if (!el.maxLength)   el.maxLength   = 18;
+
+    el.addEventListener("focus", () => {
+      if (!el.value.trim()) { el.value = "+7 ("; setCaretEnd(el); }
+    });
+
+    el.addEventListener("input", () => {
+      const { view } = formatView(el.value);
+      el.value = view;
+      requestAnimationFrame(() => setCaretEnd(el));
+    });
+
+    el.addEventListener("paste", (e) => {
+      e.preventDefault();
+      const t = (e.clipboardData || window.clipboardData).getData("text") || "";
+      el.value = formatView(t).view;
+      requestAnimationFrame(() => setCaretEnd(el));
+    });
+
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace" && el.selectionStart <= 4 && el.selectionEnd <= 4) {
+        e.preventDefault();
+      }
+    });
+
+    el.addEventListener("blur", () => {
+      if (!formatView(el.value).nat) el.value = "";
+    });
+  }
+
+  function boot() {
+    document.querySelectorAll(SELECTOR).forEach(attach);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+
+  document.addEventListener("focusin", (e) => {
+    if (e.target && e.target.matches(SELECTOR)) attach(e.target);
+  });
+
+  window.__normalizeRuPhone   = (v) => formatView(v).e164;
+  window.__isRuPhoneComplete  = (v) => formatView(v).nat.length === 10;
+})();
+
+/* ============================================================
+   2) Helpers
+   ============================================================ */
+const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-// ---------- Fixed header offset ----------
-(function headerOffset(){
-  const header = $('.site-header');
-  if (!header) return;
-  const root = document.documentElement;
-
-  function apply(){
-    const h = header.getBoundingClientRect().height;
-    root.style.setProperty('--header-offset', `${h}px`);
-  }
-
-  apply();
-  window.addEventListener('load', apply);
-  let to;
-  window.addEventListener('resize', () => {
-    clearTimeout(to);
-    to = setTimeout(apply, 120);
-  });
-})();
-
-// ---------- Disable compact mode ----------
-(function compactHeader(){
-  const header = $('.site-header');
-  if (!header) return;
-  header.classList.remove('is-compact');
-})();
-
-// ---------- Burger / Mobile menu ----------
-(function mobileMenu(){
-  const burger = $('#burger');
-  const menu = $('#mobileMenu');
-  if (!burger || !menu) return;
-
-  const open = () => {
-    menu.hidden = false;
-    document.body.classList.add('no-scroll');
-    burger.setAttribute('aria-expanded', 'true');
-  };
-  const close = () => {
-    menu.hidden = true;
-    document.body.classList.remove('no-scroll');
-    burger.setAttribute('aria-expanded', 'false');
-  };
-
-  burger.addEventListener('click', () => (menu.hidden ? open() : close()));
-  menu.addEventListener('click', (e) => { if (e.target === menu) close(); });
-  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
-
-  $$('.mobile-nav .nav-link, .mobile-nav .btn-cta', menu).forEach(a => {
-    a.addEventListener('click', () => close());
-  });
-})();
-
-// ---------- Smooth anchor scroll ----------
-(function smoothAnchors(){
-  const header = $('.site-header');
-  const getHeaderH = () => (header ? header.getBoundingClientRect().height : 0);
-
-  function scrollToId(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const y = window.scrollY + rect.top - (getHeaderH() + 16);
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  }
-
-  $$('.main-nav .nav-link, .mobile-nav .nav-link, a.btn-cta[href^="#"]').forEach(a => {
-    const h = a.getAttribute('href') || '';
-    if (!h.startsWith('#') || h.length < 2) return;
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      const id = h.slice(1);
-      scrollToId(id);
-      history.replaceState(null, '', h);
+function showToast(msg, ok = true) {
+  let n = $("#toast");
+  if (!n) {
+    n = document.createElement("div");
+    n.id = "toast";
+    n.setAttribute("role", "status");
+    n.setAttribute("aria-live", "polite");
+    Object.assign(n.style, {
+      position: "fixed",
+      left: "50%",
+      top: "16px",
+      transform: "translateX(-50%)",
+      zIndex: 3000,
+      padding: "10px 14px",
+      borderRadius: "10px",
+      color: "#fff",
+      fontWeight: 700,
+      boxShadow: "0 10px 28px rgba(0,0,0,.18)",
     });
-  });
-})();
-
-// ---------- Active link on scroll ----------
-(function activeLinkOnScroll(){
-  const header = $('.site-header');
-  const links = $$('.main-nav .nav-link, .mobile-nav .nav-link');
-  if (!header || links.length === 0) return;
-
-  const map = {};
-  links.forEach(a => {
-    const h = a.getAttribute('href') || '';
-    if (h.startsWith('#')) (map[h] ||= []).push(a);
-  });
-
-  const clearActive = () => links.forEach(a => a.classList.remove('active'));
-  const setActive = (id) => {
-    clearActive();
-    (map[`#${id}`] || []).forEach(a => a.classList.add('active'));
-  };
-
-  const getHeaderH = () => header.getBoundingClientRect().height;
-  const sections = $$('main > section[id]');
-  let io;
-  function initObserver(){
-    if (io) io.disconnect();
-    io = new IntersectionObserver((entries)=>{
-      entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
-    },{
-      root: null,
-      rootMargin: `-${getHeaderH()+20}px 0px -50% 0px`,
-      threshold: 0.1
-    });
-    sections.forEach(s => io.observe(s));
+    document.body.appendChild(n);
   }
-  initObserver();
-  window.addEventListener('resize', () => {
-    clearTimeout(window.__ioTO);
-    window.__ioTO = setTimeout(initObserver, 150);
-  });
+  n.style.background = ok ? "#16a34a" : "#ef4444";
+  n.textContent = msg;
+  n.style.opacity = "1";
+  setTimeout(() => {
+    n.style.transition = "opacity .4s";
+    n.style.opacity = "0";
+  }, 2200);
+}
 
-  window.addEventListener('load', ()=>{
-    const id = location.hash.slice(1);
-    if (id) setActive(id);
-  });
-})();
-
-// ---------- Status badge ----------
-(function statusBadge(){
-  const dot = $('#statusDot');
-  const text = $('#statusText');
-  if (!dot || !text) return;
-
-  function isOpen(date = new Date()){
-    const day = date.getDay(); // 0-вс, 1-пн … 6-сб
-    const h = date.getHours();
-    const openDay = day >= 1 && day <= 6;
-    const openTime = h >= 9 && h < 20;
-    return openDay && openTime;
+function showFieldError(input, msg) {
+  if (!input) return;
+  input.classList.add("is-invalid");
+  input.setAttribute("aria-invalid", "true");
+  let n = input.parentElement.querySelector(".field-error");
+  if (!n) {
+    n = document.createElement("div");
+    n.className = "field-error";
+    input.parentElement.appendChild(n);
   }
-  function render(){
-    const open = isOpen();
-    dot.style.background = open ? '#22c55e' : '#ef4444';
-    dot.style.boxShadow = open ? '0 0 0 3px rgba(34,197,94,0.18)' : '0 0 0 3px rgba(239,68,68,0.18)';
-    text.textContent = open ? 'Открыто' : 'Закрыто';
+  n.textContent = msg;
+}
+
+function clearErrors(form) {
+  form.querySelectorAll(".is-invalid").forEach((i) => {
+    i.classList.remove("is-invalid");
+    i.removeAttribute("aria-invalid");
+  });
+  form.querySelectorAll(".field-error").forEach((n) => n.remove());
+}
+
+async function postJSON(url, data) {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  const text = await res.text();
+  let json;
+  try { json = text ? JSON.parse(text) : {}; }
+  catch { json = { detail: text || "Ошибка" }; }
+  if (!res.ok) {
+    const err = new Error("HTTP " + res.status);
+    err.status = res.status;
+    err.payload = json;
+    throw err;
   }
-  render();
-  setInterval(render, 60 * 1000);
-})();
+  return json;
+}
 
-// ---------- Cookie banner ----------
-(function cookieBanner(){
-  const banner = $('#cookie-banner');
-  if (!banner) return;
-  const accept = $('#cookie-accept');
-  const decline = $('#cookie-decline');
-
-  const KEY = 'mc_cookie_choice';
-
-  const hide = () => banner.classList.add('is-hidden');
-  const show = () => banner.classList.remove('is-hidden');
-
-  try{
-    const choice = localStorage.getItem(KEY);
-    if (!choice) show();
-  }catch(_){}
-
-  accept?.addEventListener('click', () => {
-    try{ localStorage.setItem(KEY, 'accepted'); }catch(_){}
-    hide();
-  });
-  decline?.addEventListener('click', () => {
-    try{ localStorage.setItem(KEY, 'declined'); }catch(_){}
-    hide();
-  });
-})();
-
-// ---------- Progressive reveal for cards ----------
-(function revealCards(){
-  document.documentElement.classList.add('js-ready');
-  const els = $$('.about-card, .advantages-card');
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-visible'); });
-  },{ threshold: .2 });
-  els.forEach(el => io.observe(el));
-})();
-
-// ---------- Appointment form ----------
-(function appointmentForm(){
-  const form = $('#appointment-form');
+/* ============================================================
+   3) Appointment form (safe consent + default age)
+   ============================================================ */
+(function appointmentForm() {
+  const form = document.getElementById("appointment-form");
   if (!form) return;
 
-  const ENDPOINT = '/api/v1/appointments/create';
+  const ENDPOINT = "/api/v1/appointments/create";
 
   const el = {
     first_name: form.querySelector('[name="first_name"]'),
@@ -205,114 +178,81 @@ const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
     submitBtn: form.querySelector('button[type="submit"]'),
   };
 
-  const PHONE_RE = /^\+?\d[\d\-\s\(\)]{9,}$/;
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const showFieldError = (input, msg)=>{
-    if (!input) return;
-    input.classList.add('is-invalid');
-    let n = input.parentElement.querySelector('.field-error');
-    if (!n) {
-      n = document.createElement('div');
-      n.className='field-error';
-      input.parentElement.appendChild(n);
-    }
-    n.textContent = msg;
-  };
-  const clearErrors = ()=>{
-    form.querySelectorAll('.is-invalid').forEach(i=>i.classList.remove('is-invalid'));
-    form.querySelectorAll('.field-error').forEach(n=>n.remove());
-  };
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearErrors(form);
 
-  const normalizePhone = v=>{
-    const d = (v||'').replace(/[^\d+]/g,'');
-    if(/^8\d{10}$/.test(d))   return '+7'+d.slice(1);
-    if(/^\+7\d{10}$/.test(d)) return d;
-    if(/^\d{11}$/.test(d))    return '+'+d;
-    return d;
-  };
-
-  const toast = (msg, ok=true)=>{
-    let n = document.getElementById('toast'); if(!n){
-      n = document.createElement('div'); n.id='toast';
-      Object.assign(n.style,{position:'fixed',left:'50%',top:'16px',transform:'translateX(-50%)',
-        zIndex:3000,padding:'10px 14px',borderRadius:'10px',color:'#fff',fontWeight:700,
-        boxShadow:'0 10px 28px rgba(0,0,0,.18)'});
-      document.body.appendChild(n);
-    }
-    n.style.background = ok ? '#16a34a' : '#ef4444';
-    n.textContent = msg; n.style.opacity='1';
-    setTimeout(()=>{ n.style.transition='opacity .4s'; n.style.opacity='0'; }, 2200);
-  };
-
-  async function postJSON(url, data){
-    const res = await fetch(url, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(data)
-    });
-    const text = await res.text();
-    let json; try{ json = text ? JSON.parse(text) : {}; }catch{ json = { detail: text||'Ошибка' }; }
-    if(!res.ok){ const err = new Error('HTTP '+res.status); err.status=res.status; err.payload=json; throw err; }
-    return json;
-  }
-
-  function validate(){
-    clearErrors();
     let ok = true;
 
-    if(!el.first_name.value.trim()){ showFieldError(el.first_name,'Введите имя'); ok=false; }
-    if(!el.last_name.value.trim()){ showFieldError(el.last_name,'Введите фамилию'); ok=false; }
+    if (!el.first_name.value.trim()) { showFieldError(el.first_name, "Введите имя"); ok = false; }
+    if (!el.last_name.value.trim())  { showFieldError(el.last_name, "Введите фамилию"); ok = false; }
 
-    el.phone_number.value = normalizePhone(el.phone_number.value);
-    if(!PHONE_RE.test(el.phone_number.value)){ showFieldError(el.phone_number,'Неверный телефон'); ok=false; }
+    // AGE: если не выбрано — подставим по умолчанию (NOT NULL в БД)
+    let ageVal = (el.age && el.age.value) ? el.age.value : "26-35";
+    if (el.age && !el.age.value) el.age.value = ageVal;
 
-    const email = el.email.value.trim();
-    if(email && !EMAIL_RE.test(email)){ showFieldError(el.email,'Неверный email'); ok=false; }
-
-    if(!el.age.value){ showFieldError(el.age,'Выберите возраст'); ok=false; }
-    if(!el.preferred_time.value){ showFieldError(el.preferred_time,'Выберите время'); ok=false; }
-
-    if(el.message && el.message.value.length > 1000){
-      showFieldError(el.message,'Сообщение слишком длинное'); ok=false;
+    // Телефон
+    if (!window.__isRuPhoneComplete(el.phone_number.value)) {
+      showFieldError(el.phone_number, "Введите номер полностью");
+      ok = false;
     }
 
-    if(!el.privacy_consent.checked){
-      showFieldError(el.privacy_consent, 'Нужно согласиться с политикой');
-      ok=false;
+    // Email при наличии
+    const email = (el.email.value || "").trim();
+    if (email && !EMAIL_RE.test(email)) { showFieldError(el.email, "Неверный email"); ok = false; }
+
+    // Сообщение ограничим
+    if (el.message && el.message.value.length > 1000) {
+      showFieldError(el.message, "Сообщение слишком длинное");
+      ok = false;
     }
 
-    return ok;
-  }
+    // Согласие — безопасная проверка, без падений
+    if (el.privacy_consent && !el.privacy_consent.checked) {
+      showFieldError(el.privacy_consent, "Нужно согласиться с политикой");
+      ok = false;
+    }
 
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    if(!validate()) return;
+    if (!ok) return;
+
+    const phoneE164   = window.__normalizeRuPhone(el.phone_number.value);
+    const baseMsg     = (el.message && el.message.value ? el.message.value : "").trim();
+    const extra       = [];
+    if (el.preferred_time && el.preferred_time.value) extra.push(`Время: ${el.preferred_time.value}`);
+    const finalMessage = [baseMsg, extra.join("; ")].filter(Boolean).join("\n") || null;
 
     const payload = {
-      first_name:     el.first_name.value.trim(),
-      last_name:      el.last_name.value.trim(),
-      phone_number:   el.phone_number.value.trim(),
-      email:          el.email.value.trim() || null,   // вместо '' — null
-      age:            el.age.value,
-      preferred_time: el.preferred_time.value,
-      message:        (el.message?.value ?? '').trim() || null,
-      privacy_consent: true                            // всегда true, т.к. по ТЗ запись невозможна без согласия
+      first_name:      el.first_name.value.trim(),
+      last_name:       el.last_name.value.trim(),
+      phone_number:    phoneE164,
+      email:           email || null,
+      age:             ageVal,
+      message:         finalMessage,
+      privacy_consent: el.privacy_consent ? (el.privacy_consent.checked === true) : true
     };
 
-    el.submitBtn.disabled = true;
-    try{
+    el.submitBtn && (el.submitBtn.disabled = true);
+    try {
       await postJSON(ENDPOINT, payload);
-      toast('Заявка отправлена!');
+      showToast("Заявка отправлена!");
       form.reset();
-    }catch(err){
-      console.warn('Ошибка отправки:', err.payload || err);
-      const msg =
-        (err.payload && (err.payload.detail || err.payload.message)) ||
-        'Не удалось отправить заявку';
-      toast(msg, false);
-    }finally{
-      el.submitBtn.disabled = false;
+    } catch (err) {
+      console.warn("Ошибка отправки:", err.payload || err);
+      const msg = (err.payload && (err.payload.detail || err.payload.message)) || "Не удалось отправить заявку";
+      showToast(msg, false);
+    } finally {
+      el.submitBtn && (el.submitBtn.disabled = false);
     }
   });
 })();
+
+// На всякий случай снимем disabled и проверим клик
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.querySelector('#appointment-form button[type="submit"]');
+  if (btn) {
+    btn.disabled = false;
+    btn.addEventListener('click', () => console.log('Submit: click'));
+  }
+});

@@ -1,38 +1,26 @@
-import os
-
-from fastapi import FastAPI
-from fastapi.responses import ORJSONResponse, FileResponse
-from fastapi.middleware.cors import CORSMiddleware
+# backend/main.py
+from pathlib import Path
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
-from .api import router as api_router
-from .core.settings import settings
+BASE_DIR = Path(__file__).resolve().parents[1]
+STATIC_DIR = BASE_DIR / "static"                
+TEMPLATES_DIR = BASE_DIR / "templates"          
 
-static_path = os.path.join(os.path.dirname(__file__), "..", "static")
-
-app = FastAPI(
-    title='Медицинский Урологический Центр API',
-    description='API для системы записи на прием в урологическую клинику',
-    version='1.0.0',
-    default_response_class=ORJSONResponse,
-)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = FastAPI()
 
 
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
-app.mount("/static", StaticFiles(directory=static_path), name="static")
+templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
-app.include_router(
-    api_router
-)
+@app.get("/", response_class=HTMLResponse)
+def serve_index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
-@app.get("/", response_class=FileResponse)
-async def index():
-    return FileResponse(os.path.join(static_path, "index.html"))
+# Если у тебя есть отдельные роуты:
+@app.get("/blog", response_class=HTMLResponse)
+def serve_blog(request: Request):
+    return templates.TemplateResponse("blog-article.html", {"request": request})

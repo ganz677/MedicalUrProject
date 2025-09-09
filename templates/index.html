@@ -1,29 +1,115 @@
 {% extends "base.html" %}
-{% block title %}MedClinic — лечение преждевременной эякуляции{% endblock %}
 
 {% block content %}
-<!-- HERO -->
 <section class="hero" id="hero">
+  <style>
+    #hero {
+      padding: 60px 0;
+    }
+
+    #hero .hero-flex {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr; /* текст 40%, картинка 60% */
+      align-items: stretch; /* 👈 растягиваем картинку на всю высоту */
+      gap: 40px;
+    }
+
+    /* Левая часть */
+    #hero .hero-text {
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    #hero .hero-text h1 {
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    #hero .hero-text .lead {
+      font-size: 18px;
+      color: #475569;
+      margin-bottom: 24px;
+    }
+    #hero .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    #hero .hero-badges li {
+      background: #fff;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #0a284e;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    }
+
+    /* Правая колонка с картинкой */
+    #hero .hero-visual {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    #hero .hero-photo {
+      width: 100%;
+      height: 100%;      /* 👈 растягиваем на всю высоту */
+      object-fit: cover; /* 👈 обрезает лишнее, чтобы не деформировалось */
+      border-radius: 20px;
+      box-shadow: 0 18px 48px rgba(2,6,23,.18);
+    }
+
+    /* Адаптив */
+    @media (max-width: 1024px) {
+      #hero .hero-flex {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      #hero .hero-text {
+        text-align: center;
+        max-width: 100%;
+      }
+      #hero .hero-badges {
+        justify-content: center;
+      }
+      #hero .hero-photo {
+        height: auto; /* на мобилках нормальная картинка */
+      }
+    }
+  </style>
+
   <div class="container hero-flex">
     <div class="hero-text">
       <h1>Эффективное лечение преждевременной эякуляции</h1>
-      <p class="lead" style="text-align:center;max-width:800px;margin:0 auto;">
-        Определение, причины, критерии, диагностика и современные подходы к лечению. Материал подготовлен специалистами MedClinic.
+      <p class="lead">
+        Определение, причины, критерии, диагностика и современные подходы к лечению. 
+        Материал подготовлен специалистами Центра лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова.
       </p>
+
       <ul class="hero-badges">
         <li>Лицензированная клиника</li>
         <li>Стаж врачей 10+ лет</li>
         <li>Анонимно и бережно</li>
       </ul>
+
       <div class="hero-cta">
         <a href="#form" class="btn-primary">Записаться на консультацию</a>
       </div>
     </div>
-    <div class="hero-doctor-image" aria-hidden="true">
-      <img src="{{ url_for('static', path='assets/images/hero-doctor-clipboard.png') }}" alt="Врач с планшетом" decoding="async">
+
+    <div class="hero-visual" aria-hidden="true">
+      <img class="hero-photo"
+           src="{{ url_for('static', path='assets/images/hero-doctor-clipboard-v3.jpg') }}"
+           alt="Клиника МГУ"
+           decoding="async"
+           loading="eager">
     </div>
   </div>
 </section>
+
+
 
 <!-- О проблеме -->
 <section class="about" id="about">
@@ -78,36 +164,220 @@
   </div>
 </section>
 
-<!-- Наши врачи -->
-<section class="doctors" id="doctors">
+<section class="doctor" id="professor-block">
+  <style>
+    /* ===== Карточка профессора (локальные стили) ===== */
+    #professor-block{
+      --grid-gap: 36px;          /* расстояние между колонками и панелями */
+      --block-gap: 22px;         /* одинаковый нижний отступ у всех панелей/блоков */
+      --panel-pad: 22px;         /* внутренние отступы карточек */
+      --sticky-top: 140px;       /* высота “прилипания” фото (подходи под высоту шапки) */
+      padding: 56px 0;
+    }
+    #professor-block .container{ width:min(92%,1160px); margin:0 auto; }
+
+    /* Заголовок секции */
+    #professor-block .section-title{
+      font-size: clamp(24px, 3.2vw, 34px);
+      line-height: 1.2;
+      margin: 0 0 28px;
+      text-align: left;
+    }
+
+    /* Две колонки: фото слева, текст справа */
+    #professor-block .row{
+      display: grid;
+      grid-template-columns: clamp(300px, 34vw, 460px) minmax(0, 1fr);
+      gap: var(--grid-gap);
+      align-items: start;
+    }
+
+    /* Фото — мягкая рамка + тень + “липкость” ниже шапки */
+    #professor-block .card-frame{
+      position: sticky;
+      top: var(--sticky-top);
+      padding: 12px;
+      background: #fff;
+      border: 1.5px solid #e6eefc;
+      border-radius: 18px;
+      box-shadow: 0 10px 28px rgba(37,99,235,.08);
+    }
+    #professor-block .photo img{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:14px;
+    }
+
+    /* Правая колонка: лид + карточки */
+    #professor-block .text{
+      text-align: left;
+      max-width: 780px;
+    }
+    #professor-block .text .lead{
+      margin: 2px 0 var(--block-gap);
+      color: #475569;
+      font-size: clamp(15px, 1.1vw, 17px);
+      line-height: 1.65;
+    }
+
+    /* Универсальная карточка-панель */
+    #professor-block .panel{
+      background:#fff;
+      border:1.5px solid #e6eefc;
+      border-radius:18px;
+      padding: var(--panel-pad) clamp(18px, 2.2vw, 28px);
+      box-shadow: 0 10px 28px rgba(2, 6, 23, 0.06);
+      margin: 0 0 var(--block-gap);
+    }
+    #professor-block .panel:last-child{ margin-bottom: 0; }
+
+    #professor-block .panel h3{
+      margin:0 0 10px;
+      font-size: clamp(18px, 1.6vw, 22px);
+      font-weight: 700;
+    }
+
+    /* Красивые списки */
+    #professor-block .panel ul{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    #professor-block .panel li{
+      position: relative;
+      padding-left: 22px;
+      margin: 8px 0;
+      line-height: 1.55;
+      color:#0f172a;
+    }
+    #professor-block .panel li::before{
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #1d4ed8;
+      box-shadow: 0 0 0 3px rgba(29,78,216,.14);
+      transform: translateY(-50%);
+    }
+    /* Вложенные списки: другой цвет маркера */
+    #professor-block .panel ul ul{
+      margin-top: 6px;
+      margin-left: 10px;
+    }
+    #professor-block .panel ul ul li::before{
+      background: #059669;
+      box-shadow: 0 0 0 3px rgba(5,150,105,.14);
+    }
+
+    /* Ряд на всю ширину ниже картинки (контент все равно в правой половине) */
+    #professor-block .full-row{
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: clamp(300px, 34vw, 460px) minmax(0,1fr);
+      gap: var(--grid-gap);
+      margin-top: var(--block-gap);
+    }
+    #professor-block .full-row .panel{ grid-column: 2; }
+
+    /* Адаптив */
+    @media (max-width: 980px){
+      #professor-block .row{ grid-template-columns: 1fr; gap: 22px; }
+      #professor-block .card-frame{ position: static; } /* фото перестает липнуть на мобилках */
+      #professor-block .full-row{ grid-template-columns: 1fr; }
+      #professor-block .full-row .panel{ grid-column: 1; }
+      #professor-block .section-title{ text-align: center; }
+    }
+  </style>
+
   <div class="container">
-    <h2 class="section-title">Наши врачи</h2>
-    <div class="doctors-cards">
-      <div class="doctor-card">
-        <img src="{{ url_for('static', path='assets/images/doctor1.jpg') }}" alt="Иванов Сергей — уролог" width="360" height="420" loading="lazy" decoding="async">
-        <h3>Иванов Сергей</h3>
-        <p>Уролог, 15 лет опыта</p>
+    <h2 class="section-title">Профессор: Охоботов Дмитрий Александрович</h2>
+
+    <div class="row">
+      <!-- Фото -->
+      <figure class="photo card-frame">
+        <img
+          src="{{ url_for('static', path='assets/images/proffesor_image.png') }}"
+          alt="Профессор: Охоботов Дмитрий Александрович"
+          loading="lazy" decoding="async">
+      </figure>
+
+      <!-- Правая колонка -->
+      <div class="text">
+        <p class="lead">
+          Ведущий специалист клиники, уролог-андролог. Старший преподаватель и заведующий
+          учебной частью кафедры урологии и андрологии ФФМ МГУ, учёный секретарь общества
+          «Мужское здоровье».
+        </p>
+
+        <!-- Образование -->
+        <article class="panel">
+          <h3>Образование</h3>
+          <ul>
+            <li>Московская Медицинская Академия им. И.М. Сеченова — «Лечебное дело».</li>
+            <li>Ординатура по урологии, НИИ урологии — 2002–2004.</li>
+            <li>Аспирантура по урологии, НИИ урологии — 2004–2008.</li>
+          </ul>
+        </article>
+
+        <!-- Биографическая справка -->
+        <article class="panel">
+          <h3>Биографическая справка</h3>
+          <ul>
+            <li>2001–2006 — врач-уролог отделений пересадки почки и эфферентных методов лечения, НИИ урологии Росмедтехнологий.</li>
+            <li>2008–2010 — младший и научный сотрудник отдела андрологии и репродуктивного здоровья, НИИ урологии.</li>
+            <li>С апреля 2010 — старший преподаватель, завуч кафедры урологии и андрологии ФФМ МГУ им. М.В. Ломоносова.</li>
+            <li>С 2010 — учёный секретарь Российского общества «Мужское здоровье».</li>
+          </ul>
+        </article>
       </div>
-      <div class="doctor-card">
-        <img src="{{ url_for('static', path='assets/images/doctor2.jpg') }}" alt="Петрова Анна — сексолог" width="360" height="420" loading="lazy" decoding="async">
-        <h3>Петрова Анна</h3>
-        <p>Сексолог, 10 лет опыта</p>
-      </div>
-      <div class="doctor-card">
-        <img src="{{ url_for('static', path='assets/images/doctor3.jpg') }}" alt="Сидоров Михаил — эндокринолог" width="360" height="420" loading="lazy" decoding="async">
-        <h3>Сидоров Михаил</h3>
-        <p>Эндокринолог, 12 лет опыта</p>
+
+      <!-- Нижние панели на всю ширину (контент остаётся в правой колонке) -->
+      <div class="full-row">
+        <!-- Научная деятельность -->
+        <article class="panel">
+          <h3>Научная деятельность</h3>
+          <ul>
+            <li>Кандидат медицинских наук (2008): «Влияние культур, обогащённых стволовыми клетками, на сперматогенез при экспериментальном двустороннем крипторхизме».</li>
+            <li>Докторская диссертация — на предзащитном этапе.</li>
+            <li>Автор и соавтор более 75 печатных работ в ведущих медицинских изданиях.</li>
+            <li>Соавтор разделов в 4 справочниках и монографиях по урологии и андрологии.</li>
+          </ul>
+        </article>
+
+        <!-- Профессиональные интересы -->
+        <article class="panel">
+          <h3>Профессиональные интересы</h3>
+          <ul>
+            <li>Действующий сертификат РМАПО по специальности «Урология» (до 14.12.2018 г.).</li>
+            <li>Сертификаты повышения квалификации:
+              <ul>
+                <li>УЗИ-диагностика в урологии;</li>
+                <li>Детская андрология;</li>
+                <li>Андрология;</li>
+                <li>Биомедицинская статистика;</li>
+                <li>GCP-исследования.</li>
+              </ul>
+            </li>
+          </ul>
+        </article>
       </div>
     </div>
   </div>
 </section>
+
+
+
+
 
 <!-- Форма записи -->
 <section class="form-section" id="form">
   <div class="container">
     <h2 class="section-title">Запишитесь на консультацию</h2>
     <div class="form-card styled-card">
-      <form class="form" id="appointment-form" novalidate>
+      <form class="form" id="appointment-form" novalidate aria-describedby="form-note">
         <div class="form-row">
           <label>Имя
             <input type="text" name="first_name" required autocomplete="given-name">
@@ -116,7 +386,7 @@
             <input type="text" name="last_name" required autocomplete="family-name">
           </label>
           <label>Телефон
-            <input type="tel" name="phone_number" required inputmode="tel" autocomplete="tel" placeholder="+7 999 123-45-67">
+            <input type="tel" name="phone_number" required inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" maxlength="18">
           </label>
         </div>
 
@@ -147,14 +417,12 @@
         <label>Сообщение (необязательно)
           <textarea name="message" rows="3" placeholder="Кратко опишите вашу ситуацию"></textarea>
         </label>
+        <button id="submit-btn" type="submit" class="btn-primary">Отправить</button>
 
-        <label class="checkbox">
-          <input type="checkbox" name="privacy_consent" required>
-          <span>Я согласен с <a href="/privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a></span>
-        </label>
-
-        <button type="submit" class="btn-primary">Отправить</button>
-        <p class="form-note">Нажимая «Отправить», вы соглашаетесь с <a href="#">политикой конфиденциальности</a>.</p>
+        <p class="form-note" id="form-note">
+          Нажимая «Отправить», вы соглашаетесь с
+          <a href="/privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a>.
+        </p>
       </form>
     </div>
   </div>
@@ -165,17 +433,18 @@
   <div class="container contacts-container">
     <h2 class="section-title">Контакты</h2>
     <p class="contact-info">
-      Адрес: г. Москва, ул. Примерная, д. 1<br>
-      Телефон: <a href="tel:+79991234567">+7 (999) 123-45-67</a><br>
+      <a href="https://yandex.ru/maps/?text=Москва, Ломоносовский проспект, д. 27, корп. 10" 
+   target="_blank" rel="noopener noreferrer">
+  📍 Москва, Ломоносовский проспект, д. 27, корп. 10
+    </a><br>
+      Телефон: <a href="tel:+79687411657">+7 (968) 741-16-57</a><br>
       Email: <a href="mailto:info@medclinic.ru">info@medclinic.ru</a>
     </p>
     <div class="map">
-      <iframe
-        src="https://yandex.ru/map-widget/v1/-/CCUq6Hk0"
-        width="100%" height="300" frameborder="0" allowfullscreen
-        loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-        title="Карта – MedClinic">
-      </iframe>
+      <iframe 
+      src="https://yandex.ru/map-widget/v1/?text=Москва, Ломоносовский проспект, д. 27, корп. 10" 
+      width="100%" height="400" frameborder="0" allowfullscreen="true">
+    </iframe>
     </div>
   </div>
 </section>

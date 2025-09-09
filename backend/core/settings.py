@@ -16,6 +16,7 @@ from pydantic_settings import (
 load_dotenv(os.path.join(os.path.dirname(__file__), '../../.env'))
 
 BASE_DIR =Path(__file__).parent.parent
+PUBLIC_DIR = BASE_DIR / 'public'
 
 class DataBaseSettings(BaseModel):
     url: PostgresDsn
@@ -33,6 +34,16 @@ class AuthJWT(BaseModel):
 class FrontSettings(BaseModel):
     templates_dir: Path = BASE_DIR / 'templates'
     secret_key: str
+    
+    
+class RedisSettings(BaseModel):
+    redis_host: str
+    redis_port: int
+    redis_db: int
+
+    @property
+    def redis_url(self):
+        return f'redis://{self.redis_host}:{self.redis_port}/{self.redis_db}'
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -46,10 +57,8 @@ class Settings(BaseSettings):
     )
     front: FrontSettings
     db: DataBaseSettings
+    redis: RedisSettings
     auth_jwt: AuthJWT = AuthJWT()
 
 
 settings = Settings()
-
-
-print(settings.front.secret_key)

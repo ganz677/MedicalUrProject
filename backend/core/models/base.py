@@ -1,7 +1,7 @@
 from sqlalchemy import MetaData
 from sqlalchemy.orm import DeclarativeBase, declared_attr
 
-from utils.case_converter import camel_to_snake_case
+from backend.utils.case_converter import camel_to_snake_case
 
 
 

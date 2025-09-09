@@ -21,6 +21,5 @@ class Admin(IDMixin, TimeStampMixin, Base):
     
     hashed_password: Mapped[str] = mapped_column(
         Text,
-        unique=True,
         nullable=False,
     )

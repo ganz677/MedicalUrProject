@@ -1,16 +1,69 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{% block title %}MedClinic — урологический центр{% endblock %}</title>
+  <head>
+    <!-- JSON-LD: Doctor + Organization -->
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"Person",
+      "@id":"https://example.com/#chief-doctor",
+      "name":"Охоботов Дмитрий Александрович",
+      "jobTitle":"Доктор медицинских наук, уролог-андролог",
+      "image":"https://example.com/assets/proffesor_image.jpg",
+      "url":"https://example.com/#doctor",
+      "worksFor":{
+        "@type":"MedicalOrganization",
+        "@id":"https://example.com/#org",
+        "name":"Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова",
+        "url":"https://example.com/"
+      },
+      "affiliation":{
+        "@type":"CollegeOrUniversity",
+        "name":"МГУ им. М.В. Ломоносова — кафедра урологии и андрологии"
+      },
+      "alumniOf":[{ "@type":"CollegeOrUniversity","name":"Московская медицинская академия им. И.М. Сеченова"}],
+      "medicalSpecialty":"Urology",
+      "knowsAbout":["андрология","мужское здоровье","репродуктивное здоровье","урологическая УЗ-диагностика","биомедицинская статистика","GCP исследования"],
+      "hasCredential":[{ "@type":"EducationalOccupationalCredential","name":"Сертификат РМАПО «Урология»"}],
+      "memberOf":{"@type":"Organization","name":"Российское общество «Мужское здоровье»"},
+      "description":"Главный врач Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова. Автор более 75 публикаций.",
+      "inLanguage":"ru-RU","nationality":"RU"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"MedicalOrganization",
+      "@id":"https://example.com/#org",
+      "name":"Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова",
+      "url":"https://example.com/",
+      "medicalSpecialty":"Urology",
+      "employee":{ "@id":"https://example.com/#chief-doctor" }
+    }
+    </script>
 
-  <link rel="icon" href="{{ url_for('static', path='assets/images/favicon.png') }}" type="image/png" />
-  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
-</head>
-<body>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="{% block description %}Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова — диагностика и лечение интимных проблем. Консультации уролога, современные методы терапии, анонимно и бережно.{% endblock %}" />
+    <link rel="canonical" href="{{ request.url }}" />
+    <meta name="theme-color" content="#0a7cff" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta property="og:site_name" content="Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова" />
+    <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:image" content="{{ url_for('static', path='assets/images/main_picture.png') }}" />
+    <meta property="og:locale" content="ru_RU" />
 
-  <!-- ===== Header (flat, fixed) ===== -->
+    <title>{% block title %}Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова{% endblock %}</title>
+
+    <link rel="icon" href="{{ url_for('static', path='assets/images/favicon.png') }}" type="image/png" />
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}?v=sky2">
+  </head>
+  <body>
+
+  <!-- ===== Header (fixed) ===== -->
   <header class="site-header" role="banner">
     <!-- Верхняя инфополоса -->
     <div class="header-top" aria-label="Контакты и график">
@@ -18,36 +71,28 @@
         <div class="info-list">
           <span class="info-item">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-4.35 7-10a7 7 0 1 0-14 0c0 5.65 7 10 7 10Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="11" r="2.6" fill="currentColor"/></svg>
-            Москва, ул. Примерная, д. 1
+            г. Москва, Ломоносовский проспект, д. 27, корп. 10
           </span>
           <span class="info-item">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v6l4 2" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
-            Пн–Сб: 09:00–20:00
+            Пн–Пт: 10:00–18:00
           </span>
-          <a class="info-item info-link" href="tel:+79991234567">
+          <a class="info-item info-link" href="tel:+79687411657">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v2a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.5 0 0 1 2.92 4.18 2 2 0 0 1 4.92 2h2a2 2 0 0 1 2 1.72c.12.9.31 1.78.58 2.63a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.45-1.0a2 2 0 0 1 2.11-.45c.85.27 1.73.46 2.63.58A2 2 0 0 1 22 16.92Z" fill="currentColor"/></svg>
-            +7 (999) 123-45-67
-          </a>
-          <a class="info-item info-link" href="mailto:info@medclinic.ru">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m22 8-10 6L2 8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-            info@medclinic.ru
+            +7 (968) 741-16-57
           </a>
         </div>
 
         <div class="header-top-right">
-          <span class="status-badge" aria-live="polite">
-            <span class="dot" id="statusDot" aria-hidden="true"></span>
-            <span id="statusText">Статус…</span>
-          </span>
           <div class="quick-links" role="group" aria-label="Быстрые действия">
-            <a class="ql-btn" href="tel:+79991234567" title="Позвонить" aria-label="Позвонить">
+            <a class="ql-btn" href="tel:+79687411657" title="Позвонить" aria-label="Позвонить">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v2a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.5 0 0 1 2.92 4.18 2 2 0 0 1 4.92 2h2a2 2 0 0 1 2 1.72c.12.9.31 1.78.58 2.63a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.45-1.0a2 2 0 0 1 2.11-.45c.85.27 1.73.46 2.63.58A2 2 0 0 1 22 16.92Z" fill="currentColor"/></svg>
             </a>
-            <a class="ql-btn" href="https://wa.me/79991234567" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.94 14.5L2 22l5.7-1.99A10 10 0 1 0 12 2Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16.1 13.4c-.2-.1-1.2-.6-1.4-.7-.2-.1-.4-.1-.6.1-.2.2-.7.7-.8.9-.1.1-.3.2-.6.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.9-.2-.3 0-.5.1-.6.1-.1.2-.2.3-.3.1-.1.1-.2.2-.3.1-.1.1-.2 0-.3l-.7-1.6c-.2-.4-.3-.3-.4-.3h-.3c-.1 0-.3 0-.4.2-.1.2-.5.5-.5 1.2s.5 1.4.6 1.5c.1.2 1.1 1.8 2.6 2.6 1.5.9 1.8.6 2.1.6.3 0 1-.4 1.1-.8.1-.4.1-.7.1-.8 0-.1-.1-.2-.3-.3Z" fill="currentColor"/></svg>
+            <a class="ql-btn" href="https://wa.me/79687411657" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+              <img src="{{ url_for('static', path='assets/images/icons/whatsapp.png') }}" width="18" height="18" alt="">
             </a>
-            <a class="ql-btn" href="https://t.me/medclinic" target="_blank" rel="noopener" title="Telegram" aria-label="Telegram">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.5 2.9 10.8c-.7.3-.7 1.3.1 1.5l4.6 1.4 1.7 5.4c.2.7 1.1.8 1.5.1l2.5-3.3 4.8 3.6c.6.4 1.5.1 1.7-.7l3-14c.2-.9-.6-1.6-1.3-1.3Z" fill="currentColor"/></svg>
+            <a class="ql-btn" href="https://t.me/79687411657" target="_blank" rel="noopener" title="Telegram" aria-label="Telegram">
+              <img src="{{ url_for('static', path='assets/images/icons/telegram.png') }}" width="18" height="18" alt="">
             </a>
           </div>
         </div>
@@ -56,8 +101,10 @@
 
     <!-- Логотип + меню -->
     <div class="header-inner">
-      <a href="{{ url_for('serve_index') }}" class="logo" aria-label="MedClinic — на главную">
-        <img src="{{ url_for('static', path='assets/images/logo.png') }}" alt="MedClinic" width="132" height="32" />
+      <a href="{{ url_for('serve_index') }}" class="logo" aria-label="На главную">
+        <img src="{{ url_for('static', path='assets/images/logo.png') }}?v=3"
+             alt="Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова"
+             width="132" height="32" />
       </a>
 
       <button class="burger" id="burger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Открыть меню">
@@ -68,7 +115,7 @@
         <nav class="main-nav" aria-label="Главная навигация">
           <a class="nav-link" href="#about">О проблеме</a>
           <a class="nav-link" href="#advantages">Почему мы</a>
-          <a class="nav-link" href="#doctors">Наши врачи</a>
+          <a class="nav-link" href="#doctor">Ведущий доктор</a>
           <a class="nav-link" href="#contacts">Контакты</a>
           <a class="nav-link" href="{{ url_for('serve_blog') }}">Блог</a>
           <a class="btn-cta" href="#form">Записаться</a>
@@ -81,20 +128,19 @@
       <nav class="mobile-nav" aria-label="Мобильная навигация">
         <a class="nav-link" href="#about">О проблеме</a>
         <a class="nav-link" href="#advantages">Почему мы</a>
-        <a class="nav-link" href="#doctors">Наши врачи</a>
+        <a class="nav-link" href="#doctor">Наши врачи</a>
         <a class="nav-link" href="#contacts">Контакты</a>
         <a class="nav-link" href="{{ url_for('serve_blog') }}">Блог</a>
         <a class="btn-cta" href="#form">Записаться</a>
 
         <div class="mobile-contacts">
-          <a href="tel:+79991234567" class="mc-item strong">Позвонить</a>
+          <a href="tel:+79687411657" class="mc-item strong">Позвонить</a>
           <div class="mc-actions">
-            <a class="mc-btn wa" href="https://wa.me/79991234567" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="mc-btn tg" href="https://t.me/medclinic" target="_blank" rel="noopener">Telegram</a>
+            <a class="mc-btn wa" href="https://wa.me/79687411657" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="mc-btn tg" href="https://t.me/79687411657" target="_blank" rel="noopener">Telegram</a>
           </div>
-          <a href="mailto:info@medclinic.ru" class="mc-item">info@medclinic.ru</a>
-          <div class="mc-item muted">Москва, ул. Примерная, д. 1</div>
-          <div class="mc-item muted">Пн–Сб: 09:00–20:00</div>
+          <div class="mc-item muted">г. Москва, Ломоносовский проспект, д. 27, корп. 10</div>
+          <div class="mc-item muted">Пн–Пт: 10:00–18:00</div>
         </div>
       </nav>
     </div>
@@ -104,14 +150,14 @@
     {% block content %}{% endblock %}
   </main>
 
-  <!-- ===== Footer (compact) ===== -->
+  <!-- ===== Footer ===== -->
   <footer class="site-footer" role="contentinfo">
     <div class="footer-wrap">
       <div class="footer-top">
         <div class="footer-brand-block">
           <a class="footer-brand" href="#hero" aria-label="На главную">
-            <img src="{{ url_for('static', path='assets/images/logo.png') }}" alt="MedClinic" width="110" height="28" loading="lazy">
-            <span>MedClinic</span>
+            <img src="{{ url_for('static', path='assets/images/logo.png') }}?v=3" alt="" width="110" height="28" loading="lazy">
+            <span>Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова</span>
           </a>
           <p class="footer-tagline">Профессиональная помощь в решении интимных проблем.</p>
         </div>
@@ -119,31 +165,27 @@
         <nav class="footer-nav" aria-label="Навигация по сайту">
           <a href="#about">О проблеме</a>
           <a href="#advantages">Почему мы</a>
-          <a href="#doctors">Наши врачи</a>
+          <a href="#doctor">Ведущий доктор</a>
           <a href="#contacts">Контакты</a>
           <a href="{{ url_for('serve_blog') }}">Блог</a>
         </nav>
 
         <div class="footer-contacts-mini">
-          <a href="tel:+79991234567">+7 (999) 123-45-67</a>
-          <a href="mailto:info@medclinic.ru">info@medclinic.ru</a>
-          <p class="footer-hours">Пн–Сб: 09:00–20:00</p>
+          <a href="tel:+79687411657">+7 (968) 741-16-57</a>
+          <p class="footer-hours">Пн–Пт: 10:00–18:00</p>
           <div class="footer-social" aria-label="Социальные сети">
-            <a href="#" aria-label="Instagram">
-              <img src="{{ url_for('static', path='assets/images/instagram.svg') }}" alt="" width="20" height="20" loading="lazy">
+            <a href="https://wa.me/79687411657" aria-label="WhatsApp" target="_blank" rel="noopener">
+              <img src="{{ url_for('static', path='assets/images/icons/whatsapp.png') }}" alt="WhatsApp" width="22" height="22" loading="lazy">
             </a>
-            <a href="#" aria-label="VK">
-              <img src="{{ url_for('static', path='assets/images/vk.svg') }}" alt="" width="20" height="20" loading="lazy">
-            </a>
-            <a href="#" aria-label="Telegram">
-              <img src="{{ url_for('static', path='assets/images/telegram.svg') }}" alt="" width="20" height="20" loading="lazy">
+            <a href="https://t.me/79687411657" aria-label="Telegram" target="_blank" rel="noopener">
+              <img src="{{ url_for('static', path='assets/images/icons/telegram.png') }}" alt="Telegram" width="22" height="22" loading="lazy">
             </a>
           </div>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <small>© 2025 MedClinic. Все права защищены.</small>
+        <small>© 2025 Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова. Все права защищены.</small>
         <nav class="footer-legal" aria-label="Юридическая информация">
           <a href="#">Политика конфиденциальности</a>
           <a href="#">Согласие на обработку данных</a>
@@ -164,6 +206,6 @@
     </div>
   </div>
 
-  <script src="{{ url_for('static', path='js/main.js') }}" defer></script>
-</body>
+  <script src="{{ url_for('static', path='js/main.js') }}?v=7" defer></script>
+  </body>
 </html>
