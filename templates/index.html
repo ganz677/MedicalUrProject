@@ -92,6 +92,7 @@
         <li>Лицензированная клиника</li>
         <li>Стаж врачей 10+ лет</li>
         <li>Анонимно и бережно</li>
+        <li>Современные методики</li>
       </ul>
 
       <div class="hero-cta">
@@ -165,133 +166,6 @@
 </section>
 
 <section class="doctor" id="professor-block">
-  <style>
-    /* ===== Карточка профессора (локальные стили) ===== */
-    #professor-block{
-      --grid-gap: 36px;          /* расстояние между колонками и панелями */
-      --block-gap: 22px;         /* одинаковый нижний отступ у всех панелей/блоков */
-      --panel-pad: 22px;         /* внутренние отступы карточек */
-      --sticky-top: 140px;       /* высота “прилипания” фото (подходи под высоту шапки) */
-      padding: 56px 0;
-    }
-    #professor-block .container{ width:min(92%,1160px); margin:0 auto; }
-
-    /* Заголовок секции */
-    #professor-block .section-title{
-      font-size: clamp(24px, 3.2vw, 34px);
-      line-height: 1.2;
-      margin: 0 0 28px;
-      text-align: left;
-    }
-
-    /* Две колонки: фото слева, текст справа */
-    #professor-block .row{
-      display: grid;
-      grid-template-columns: clamp(300px, 34vw, 460px) minmax(0, 1fr);
-      gap: var(--grid-gap);
-      align-items: start;
-    }
-
-    /* Фото — мягкая рамка + тень + “липкость” ниже шапки */
-    #professor-block .card-frame{
-      position: sticky;
-      top: var(--sticky-top);
-      padding: 12px;
-      background: #fff;
-      border: 1.5px solid #e6eefc;
-      border-radius: 18px;
-      box-shadow: 0 10px 28px rgba(37,99,235,.08);
-    }
-    #professor-block .photo img{
-      display:block;
-      width:100%;
-      height:auto;
-      border-radius:14px;
-    }
-
-    /* Правая колонка: лид + карточки */
-    #professor-block .text{
-      text-align: left;
-      max-width: 780px;
-    }
-    #professor-block .text .lead{
-      margin: 2px 0 var(--block-gap);
-      color: #475569;
-      font-size: clamp(15px, 1.1vw, 17px);
-      line-height: 1.65;
-    }
-
-    /* Универсальная карточка-панель */
-    #professor-block .panel{
-      background:#fff;
-      border:1.5px solid #e6eefc;
-      border-radius:18px;
-      padding: var(--panel-pad) clamp(18px, 2.2vw, 28px);
-      box-shadow: 0 10px 28px rgba(2, 6, 23, 0.06);
-      margin: 0 0 var(--block-gap);
-    }
-    #professor-block .panel:last-child{ margin-bottom: 0; }
-
-    #professor-block .panel h3{
-      margin:0 0 10px;
-      font-size: clamp(18px, 1.6vw, 22px);
-      font-weight: 700;
-    }
-
-    /* Красивые списки */
-    #professor-block .panel ul{
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-    #professor-block .panel li{
-      position: relative;
-      padding-left: 22px;
-      margin: 8px 0;
-      line-height: 1.55;
-      color:#0f172a;
-    }
-    #professor-block .panel li::before{
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0.65em;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #1d4ed8;
-      box-shadow: 0 0 0 3px rgba(29,78,216,.14);
-      transform: translateY(-50%);
-    }
-    /* Вложенные списки: другой цвет маркера */
-    #professor-block .panel ul ul{
-      margin-top: 6px;
-      margin-left: 10px;
-    }
-    #professor-block .panel ul ul li::before{
-      background: #059669;
-      box-shadow: 0 0 0 3px rgba(5,150,105,.14);
-    }
-
-    /* Ряд на всю ширину ниже картинки (контент все равно в правой половине) */
-    #professor-block .full-row{
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: clamp(300px, 34vw, 460px) minmax(0,1fr);
-      gap: var(--grid-gap);
-      margin-top: var(--block-gap);
-    }
-    #professor-block .full-row .panel{ grid-column: 2; }
-
-    /* Адаптив */
-    @media (max-width: 980px){
-      #professor-block .row{ grid-template-columns: 1fr; gap: 22px; }
-      #professor-block .card-frame{ position: static; } /* фото перестает липнуть на мобилках */
-      #professor-block .full-row{ grid-template-columns: 1fr; }
-      #professor-block .full-row .panel{ grid-column: 1; }
-      #professor-block .section-title{ text-align: center; }
-    }
-  </style>
-
   <div class="container">
     <h2 class="section-title">Профессор: Охоботов Дмитрий Александрович</h2>
 

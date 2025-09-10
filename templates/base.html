@@ -6,11 +6,11 @@
     {
       "@context":"https://schema.org",
       "@type":"Person",
-      "@id":"https://example.com/#chief-doctor",
+      "@id":"https://example.com/#professor-block",
       "name":"Охоботов Дмитрий Александрович",
       "jobTitle":"Доктор медицинских наук, уролог-андролог",
       "image":"https://example.com/assets/proffesor_image.jpg",
-      "url":"https://example.com/#doctor",
+      "url":"https://example.com/#professor-block",
       "worksFor":{
         "@type":"MedicalOrganization",
         "@id":"https://example.com/#org",
@@ -38,7 +38,7 @@
       "name":"Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова",
       "url":"https://example.com/",
       "medicalSpecialty":"Urology",
-      "employee":{ "@id":"https://example.com/#chief-doctor" }
+      "employee":{ "@id":"https://example.com/#professor-block" }
     }
     </script>
 
@@ -59,7 +59,7 @@
     <title>{% block title %}Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова{% endblock %}</title>
 
     <link rel="icon" href="{{ url_for('static', path='assets/images/favicon.png') }}" type="image/png" />
-    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}?v=sky2">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}?v=9">
   </head>
   <body>
 
@@ -115,7 +115,7 @@
         <nav class="main-nav" aria-label="Главная навигация">
           <a class="nav-link" href="#about">О проблеме</a>
           <a class="nav-link" href="#advantages">Почему мы</a>
-          <a class="nav-link" href="#doctor">Ведущий доктор</a>
+          <a class="nav-link" href="#professor-block">Ведущий доктор</a>
           <a class="nav-link" href="#contacts">Контакты</a>
           <a class="nav-link" href="{{ url_for('serve_blog') }}">Блог</a>
           <a class="btn-cta" href="#form">Записаться</a>
@@ -128,12 +128,12 @@
       <nav class="mobile-nav" aria-label="Мобильная навигация">
         <a class="nav-link" href="#about">О проблеме</a>
         <a class="nav-link" href="#advantages">Почему мы</a>
-        <a class="nav-link" href="#doctor">Наши врачи</a>
+        <a class="nav-link" href="#professor-block">Наши врачи</a>
         <a class="nav-link" href="#contacts">Контакты</a>
         <a class="nav-link" href="{{ url_for('serve_blog') }}">Блог</a>
         <a class="btn-cta" href="#form">Записаться</a>
 
-        <div class="mobile-contacts">
+        <div class="social-icons">
           <a href="tel:+79687411657" class="mc-item strong">Позвонить</a>
           <div class="mc-actions">
             <a class="mc-btn wa" href="https://wa.me/79687411657" target="_blank" rel="noopener">WhatsApp</a>
@@ -157,7 +157,7 @@
         <div class="footer-brand-block">
           <a class="footer-brand" href="#hero" aria-label="На главную">
             <img src="{{ url_for('static', path='assets/images/logo.png') }}?v=3" alt="" width="110" height="28" loading="lazy">
-            <span>Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова</span>
+            Центр лечения преждевременной эякуляции университетской клиники МГУ им М. В. Ломоносова
           </a>
           <p class="footer-tagline">Профессиональная помощь в решении интимных проблем.</p>
         </div>
@@ -165,7 +165,7 @@
         <nav class="footer-nav" aria-label="Навигация по сайту">
           <a href="#about">О проблеме</a>
           <a href="#advantages">Почему мы</a>
-          <a href="#doctor">Ведущий доктор</a>
+          <a href="#professor-block">Ведущий доктор</a>
           <a href="#contacts">Контакты</a>
           <a href="{{ url_for('serve_blog') }}">Блог</a>
         </nav>

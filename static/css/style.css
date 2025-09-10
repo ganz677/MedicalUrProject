@@ -194,7 +194,11 @@
     border:1px solid var(--line); background:var(--surface); color:var(--muted); font-weight:600;
     box-shadow:0 4px 10px rgba(0,0,0,.04); white-space:nowrap;
   }
-  .hero-cta{ display:flex; flex-wrap:wrap; align-items:center; gap:12px; }
+  .hero-cta {
+    display: flex;
+    justify-content: center; /* Центрируем горизонтально */
+    margin-top: 20px;        /* Отступ сверху (по желанию) */
+  }
   
   .hero-visual{ flex:1 1 520px; display:flex; align-items:flex-end; justify-content:flex-end; min-width:320px; }
   .hero-photo{
@@ -295,41 +299,37 @@
   /* ========================
      10) Blog Page
      ======================== */
-  .blog-page .hero{ padding: 24px 0 10px !important; text-align:center; }
-  .blog-page .hero .lead{ max-width:800px; margin:0 auto; }
-  .article-wrap{
-    display:grid; grid-template-columns: 300px minmax(0, 760px);
-    gap:28px; width:min(95vw, 1100px); margin:24px auto 48px; align-items:start;
-  }
-  @media (max-width:1024px){ .article-wrap{ grid-template-columns:1fr; width:min(94vw,760px); } }
-  .toc{
-    position:sticky; top:84px; align-self:start; background:var(--surface); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow-soft); padding:14px 16px;
-  }
-  .toc-title{ font-weight:900; margin-bottom:10px; }
-  .toc nav{ display:flex; flex-direction:column; gap:6px; }
-  .toc nav a{ display:block; padding:8px 10px; border-radius:8px; color:var(--ink); }
-  .toc nav a:hover{ background: rgba(2,6,23,.05); color: var(--brand); }
-  .toc .btn-primary{ width:100%; margin-top:10px; }
-  .article{
-    max-width:760px; width:100%; background:var(--surface); border:1px solid var(--line);
-    border-radius:16px; box-shadow:var(--shadow-soft); padding:24px 22px;
-  }
-  .a-section + .a-section{ margin-top:24px; }
-  .article h2{ display:flex; align-items:center; gap:12px; margin:0 0 10px; font-size:clamp(22px,3.2vw,30px); }
-  .article h2::before{ content:""; width:8px; height:26px; border-radius:6px; background: var(--brand); flex:0 0 auto; }
-  .article h3{ margin:12px 0 8px; font-size:1.06rem; color:#0b1529; }
-  .article p{ margin:0 0 12px; line-height:1.7; }
-  
-  .list-dot{ margin:10px 0 12px; padding-left:22px; }
-  .list-dot li + li{ margin-top:6px; }
-  .metric-cards{ display:grid; grid-template-columns: repeat(3,1fr); gap:12px; }
-  .metric{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px; text-align:center; }
-  .metric__value{ font-weight:900; font-size:20px; }
-  .metric__label{ color:var(--muted); font-size:12.5px; }
-  .note{ padding:12px; border:1px solid var(--line); border-radius:10px; background:linear-gradient(0deg, rgba(10,124,255,.06), rgba(10,124,255,.06)), #fff; }
-  .note--info{ border-left:4px solid var(--brand); }
-  .cta-wide .cta-card{ text-align:center; border:1px solid var(--line); border-radius:14px; padding:18px; background:#fff; box-shadow:var(--shadow-soft); }
-  
+     .blog-page .hero{ padding: 24px 0 10px !important; text-align:center; }
+     .blog-page .hero .lead{ max-width:800px; margin:0 auto; }
+     .article-wrap{
+       display:grid; grid-template-columns: 300px minmax(0, 760px);
+       gap:28px; width:min(95vw, 1100px); margin:24px auto 48px; align-items:start;
+     }
+     @media (max-width:1024px){ .article-wrap{ grid-template-columns:1fr; width:min(94vw,760px); } }
+     .toc {
+      position: sticky;
+      top: 64px; /* было 84px */
+      align-self: start;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow-soft);
+      padding: 14px 16px;
+    }
+     .toc-title{ font-weight:900; margin-bottom:10px; }
+     .toc nav{ display:flex; flex-direction:column; gap:6px; }
+     .toc nav a{ display:block; padding:8px 10px; border-radius:8px; color:var(--ink); }
+     .toc nav a:hover{ background: rgba(2,6,23,.05); color: var(--brand); }
+     .toc .btn-primary{ width:100%; margin-top:10px; }
+     .article{
+       max-width:760px; width:100%; background:var(--surface); border:1px solid var(--line);
+       border-radius:16px; box-shadow:var(--shadow-soft); padding:24px 22px;
+     }
+     .a-section + .a-section{ margin-top:24px; }
+     .article h2{ display:flex; align-items:center; gap:12px; margin:0 0 10px; font-size:clamp(22px,3.2vw,30px); }
+     .article h2::before{ content:""; width:8px; height:26px; border-radius:6px; background: var(--brand); flex:0 0 auto; }
+     .article h3{ margin:12px 0 8px; font-size:1.06rem; color:#0b1529; }
+     .article p{ margin:0 0 12px; line-height:1.7; }
   /* ========================
      11) Utilities
      ======================== */
@@ -340,7 +340,7 @@
   h2{ font-size: var(--h2); font-weight:800; }
   h3{ font-size: var(--h3); font-weight:700; }
   h4{ font-size: var(--h4); font-weight:700; }
-  .hero h1, .hero .lead{ text-align:left; } /* В hero — строго по левому краю */
+  .hero h1, .hero .lead{ text-align: center; } 
   
   .prose{ max-width: 68ch; }
   .prose.center{ margin-inline:auto; }
@@ -356,3 +356,411 @@
   .cookie-banner__text{ margin:0; }
   .cookie-banner__actions{ display:flex; gap:10px; margin-left:auto; }
   
+  .blog-page .hero {
+    text-align: center;
+  }
+  
+  .blog-page .hero h1,
+  .blog-page .hero .lead {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 900px; /* чтобы не было очень длинной строки */
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+    padding: 0;
+    list-style: none; /* убираем стандартные точки */
+    justify-content: center; /* центрируем в блоке */
+  }
+  
+  /* Акцентная точка слева */
+  .hero-badges li::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2563eb; /* синий акцент */
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+  }
+  
+
+  
+  /* Ховер-эффект */
+  .hero-badges li:hover {
+    background: linear-gradient(135deg, #e0e7ff, #f0f7ff);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37,99,235,0.15);
+  }
+  
+  .hero-badges li::before {
+    content: "";
+    position: absolute;
+    left: 14px;   /* точка чуть правее */
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2563eb;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+  }
+  
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-bottom: 28px;
+    justify-content: center;
+
+  }
+  
+  .hero-badges li {
+    background: linear-gradient(135deg, #f8fafc, #eef4ff);
+    padding: 10px 60px 10px 70px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.25s ease-in-out;
+    cursor: default;
+    position: relative;
+    min-width: 220px; /* 👈 минимальная ширина */
+    text-align: center; /* текст по центру */
+    flex: 1 1 200px; /* гибкая ширина, минимум 200px */
+    text-align: center;
+
+  }
+  
+  .hero-badges li::before {
+    content: "";
+    position: absolute;
+    left: 4px;   /* 👈 точка теперь дальше от текста */
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2563eb;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+  }
+  
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  
+  .hero-badges li {
+    background: linear-gradient(135deg, #f8fafc, #eef4ff);
+    padding: 10px 20px 10px 40px; /* чуть меньше, чтобы точка не "давила" */
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.25s ease-in-out;
+    cursor: default;
+    position: relative;
+  
+    /* одинаковая ширина */
+    min-width: 240px;     /* задаем минимальную ширину */
+    max-width: 240px;     /* фиксируем одинаково */
+    text-align: center;   /* текст ровно по центру */
+    flex: 0 0 auto;       /* отключаем растягивание */
+  }
+  
+  .hero-badges li::before {
+    content: "";
+    position: absolute;
+    left: 16px;   /* точка дальше от текста */
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2563eb;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+  }
+
+  .hero-badges {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 в строке */
+    gap: 16px 24px; /* отступы по вертикали и горизонтали */
+    justify-items: center; /* центрируем контент */
+    margin: 24px 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .hero-badges li {
+    background: linear-gradient(135deg, #f8fafc, #eef4ff);
+    padding: 12px 40px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
+    min-width: 220px;
+    text-align: center;
+    transition: all 0.25s ease-in-out;
+  }
+  
+  .hero-badges li::before {
+    content: "";
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2563eb;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+  }
+  
+  .hero-badges li:hover {
+    background: linear-gradient(135deg, #e0e7ff, #f0f7ff);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37,99,235,0.15);
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 14px;
+  }
+  
+  .social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;   /* одинаковая ширина */
+    height: 48px;  /* одинаковая высота */
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .social-icons a img {
+    width: 26px;   /* 👈 одинаковый размер для всех иконок */
+    height: 26px;
+    object-fit: contain; /* не искажает пропорции */
+  }
+
+  /* Header: быстрые иконки одного размера */
+.quick-links .ql-btn{
+  display:grid; place-items:center;
+  width:44px; height:44px;               /* одинаковый контейнер */
+  border-radius:12px;
+  background:#fff; border:1px solid var(--header-border);
+  box-shadow:0 8px 20px rgba(2,6,23,.08), 0 1px 4px rgba(2,6,23,.04);
+  color:var(--brand-2);
+}
+
+/* Нормируем размеры самих пиктограмм (и SVG, и PNG) */
+.quick-links .ql-btn svg,
+.quick-links .ql-btn img{
+  width:22px; height:22px;               /* единый размер значка */
+  display:block; object-fit:contain;
+}
+
+/* Чтобы SVG-назвонок не выглядел толще */
+.quick-links .ql-btn svg path,
+.quick-links .ql-btn svg circle{
+  vector-effect:non-scaling-stroke;
+  stroke-width:1.8;                       /* тонковато? подберите 1.6–2.0 */
+}
+
+
+/* ----- TOC всегда ниже фиксированного header ----- */
+.toc{
+  position: sticky;
+  /* высота шапки + небольшой зазор */
+  top: calc(var(--header-height) + 12px);
+  z-index: 1; /* чтобы не пряталось под контент */
+}
+
+/* Якоря в статье не уезжают под шапку при клике из TOC */
+.article .a-section{
+  scroll-margin-top: calc(var(--header-height) + 16px);
+}
+
+/* На планшетах/мобиле можно чуть уменьшить отступ */
+@media (max-width: 1024px){
+  .toc{ top: calc(var(--header-height) + 8px); }
+  .article .a-section{ scroll-margin-top: calc(var(--header-height) + 12px); }
+}
+
+/* --- Настраиваемый отступ TOC от шапки --- */
+:root{
+  /* сколько дополнительно опускать TOC ниже шапки */
+  --toc-gap-extra: 80px; /* можешь ставить 40–120px как нравится */
+}
+
+/* гарантируем sticky и больший отступ от шапки */
+.blog-page .toc{
+  position: sticky;
+  top: calc(var(--header-height) + var(--header-gap-extra) + var(--toc-gap-extra)) !important;
+  z-index: 5; /* чтобы TOC не уезжал под контент */
+}
+
+/* sticky корректно работает только если контейнер не режет overflow */
+.article-wrap{ overflow: visible !important; }
+
+/* на мобильных можно дать чуть меньше отступа, если нужно */
+@media (max-width: 1024px){
+  :root{ --toc-gap-extra: 60px; }
+}
+
+    /* ===== Карточка профессора (локальные стили) ===== */
+    #professor-block{
+      --grid-gap: 36px;          /* расстояние между колонками и панелями */
+      --block-gap: 22px;         /* одинаковый нижний отступ у всех панелей/блоков */
+      --panel-pad: 22px;         /* внутренние отступы карточек */
+      --sticky-top: 140px;       /* высота “прилипания” фото (подходи под высоту шапки) */
+      padding: 56px 0;
+    }
+    #professor-block .container{ width:min(92%,1160px); margin:0 auto; }
+
+    /* Заголовок секции */
+    #professor-block .section-title{
+      font-size: clamp(24px, 3.2vw, 34px);
+      line-height: 1.2;
+      margin: 0 0 28px;
+      text-align: left;
+    }
+
+    /* Две колонки: фото слева, текст справа */
+    #professor-block .row{
+      display: grid;
+      grid-template-columns: clamp(300px, 34vw, 460px) minmax(0, 1fr);
+      gap: var(--grid-gap);
+      align-items: start;
+    }
+
+    /* Фото — мягкая рамка + тень + “липкость” ниже шапки */
+    #professor-block .card-frame{
+      position: sticky;
+      top: var(--sticky-top);
+      padding: 12px;
+      background: #fff;
+      border: 1.5px solid #e6eefc;
+      border-radius: 18px;
+      box-shadow: 0 10px 28px rgba(37,99,235,.08);
+    }
+    #professor-block .photo img{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:14px;
+    }
+
+    /* Правая колонка: лид + карточки */
+    #professor-block .text{
+      text-align: left;
+      max-width: 780px;
+    }
+    #professor-block .text .lead{
+      margin: 2px 0 var(--block-gap);
+      color: #475569;
+      font-size: clamp(15px, 1.1vw, 17px);
+      line-height: 1.65;
+    }
+
+    /* Универсальная карточка-панель */
+    #professor-block .panel{
+      background:#fff;
+      border:1.5px solid #e6eefc;
+      border-radius:18px;
+      padding: var(--panel-pad) clamp(18px, 2.2vw, 28px);
+      box-shadow: 0 10px 28px rgba(2, 6, 23, 0.06);
+      margin: 0 0 var(--block-gap);
+    }
+    #professor-block .panel:last-child{ margin-bottom: 0; }
+
+    #professor-block .panel h3{
+      margin:0 0 10px;
+      font-size: clamp(18px, 1.6vw, 22px);
+      font-weight: 700;
+    }
+
+    /* Красивые списки */
+    #professor-block .panel ul{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    #professor-block .panel li{
+      position: relative;
+      padding-left: 22px;
+      margin: 8px 0;
+      line-height: 1.55;
+      color:#0f172a;
+    }
+    #professor-block .panel li::before{
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #1d4ed8;
+      box-shadow: 0 0 0 3px rgba(29,78,216,.14);
+      transform: translateY(-50%);
+    }
+    /* Вложенные списки: другой цвет маркера */
+    #professor-block .panel ul ul{
+      margin-top: 6px;
+      margin-left: 10px;
+    }
+    #professor-block .panel ul ul li::before{
+      background: #059669;
+      box-shadow: 0 0 0 3px rgba(5,150,105,.14);
+    }
+
+    /* Ряд на всю ширину ниже картинки (контент все равно в правой половине) */
+    #professor-block .full-row{
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: clamp(300px, 34vw, 460px) minmax(0,1fr);
+      gap: var(--grid-gap);
+      margin-top: var(--block-gap);
+    }
+    #professor-block .full-row .panel{ grid-column: 2; }
+
+    /* Адаптив */
+    @media (max-width: 980px){
+      #professor-block .row{ grid-template-columns: 1fr; gap: 22px; }
+      #professor-block .card-frame{ position: static; } /* фото перестает липнуть на мобилках */
+      #professor-block .full-row{ grid-template-columns: 1fr; }
+      #professor-block .full-row .panel{ grid-column: 1; }
+      #professor-block .section-title{ text-align: center; }
+    }
+
+
+/* === TOC чуть выше шапки (ставь этот блок в самый низ CSS) === */
+.blog-page .toc{
+  position: sticky;
+  top: calc(var(--header-height) + 8px) !important; /* было сложнее и ниже */
+  z-index: 5;
+}
+
+/* чтобы якоря не уезжали под шапку при клике */
+.article .a-section{
+  scroll-margin-top: calc(var(--header-height) + 12px);
+}
